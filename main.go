@@ -39,10 +39,10 @@ func formHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	// if r.Method != http.MethodPost {
-	// 	fmt.Fprint(w, "Something went wrong", http.StatusBadRequest)
-	// 	return
-	// }
+	if r.Method != http.MethodPost {
+		fmt.Fprint(w, "Something went wrong", http.StatusBadRequest)
+		return
+	}
 	fmt.Fprintln(w, "Post request successfull")
 
 	Name := r.FormValue("name")
@@ -62,7 +62,7 @@ func main() {
 	r.Handle("/form.html", fileserver)
 	// r.HandleFunc("/", helloHandler).Methods("GET")
 	r.HandleFunc("/", firstHandler).Methods("GET")
-	r.HandleFunc("/form", formHandler)
+	r.HandleFunc("/form", formHandler).Methods("POST")
 
 	err := http.ListenAndServe(":8080", r)
 
